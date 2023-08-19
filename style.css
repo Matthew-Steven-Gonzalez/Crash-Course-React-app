@@ -1,3 +1,7 @@
+* {
+    background-color: darkslateblue;
+}
+
 h1 {
     font-family: 'Coiny', 'cursive';
     text-transform: uppercase;
