@@ -7,7 +7,7 @@
 body {
     background-color: #292524;
     color: #fafaf9;
-
+    padding: 48px 64px;
 }
 
 h1 {
@@ -23,6 +23,11 @@ ul {
 }
 
 /* Layouts */
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
 
 .main {
     display: grid;
@@ -42,6 +47,11 @@ ul {
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+}
+
+.logo img {
+    width: 68px;
+    height: 68px;
 }
 
 .fact-form {
@@ -75,4 +85,16 @@ ul {
     font-family: 'Coiny', 'cursive';
     padding: 3px 10px 0px 10px;
     border-radius: 3px;
+}
+
+.source:link,
+.source:visited {
+    color: #a8a29e;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.source:hover {
+    color: #3b82f6;
 }
