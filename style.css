@@ -1,5 +1,5 @@
 * {
-    padding: 0;
+    /* padding: 0; */
     margin: 0;
     box-sizing: border-box;
 }
@@ -97,4 +97,32 @@ ul {
 
 .source:hover {
     color: #3b82f6;
+}
+
+.btn {
+    color: inherit;
+    border: none;
+    font-family: 'Coiny', sans-serif;
+    line-height: 1;
+    text-transform: uppercase;
+    font-size: 17px;
+    padding: 16px 0 13px;
+    background-image: linear-gradient(135deg, #3b82f6, #ef4444, #16a34a, #eab308);
+}
+
+.btn-large {
+    font-size: 20px;
+    padding: 20px 32px 17px;
+}
+
+.btn-all-cat {
+    margin-bottom: 16px;
+    width: 100%;
+
+}
+
+.btn-cat {
+    width: 100%;
+    background-image: none;
+
 }
