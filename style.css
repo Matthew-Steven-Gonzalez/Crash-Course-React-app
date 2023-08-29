@@ -58,7 +58,37 @@ ul {
     background-color: #44403c;
     margin-bottom: 40px;
     padding: 16px 40px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-radius: 16px;
+}
+
+.fact-form input,
+.fact-form select {
+    width: 220px;
+    background-color: #78716c;
+    border: none;
+    border-radius: 300px;
+    padding: 16px;
+    font-size: 18px;
+    font-family: inherit;
+}
+
+.fact-form input:first-child {
+    flex-grow: 1;
+}
+
+.fact-form input::placeholder {
+    color: #fafaf9;
+}
+
+.fact-form span {
+    font-weight: 600;
+    font-size: 18px;
+    margin-right: 8px;
+
 }
 
 .fact {
@@ -73,6 +103,7 @@ ul {
     display: flex;
     align-items: center;
     gap: 24px;
+    border-radius: 16px;
 }
 
 .vote-buttons {
