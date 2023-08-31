@@ -101,6 +101,10 @@ ul {
 
 }
 
+.hidden {
+    display: none !important;
+}
+
 .btn {
     color: inherit;
     border: none;
