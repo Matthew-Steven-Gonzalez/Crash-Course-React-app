@@ -14,5 +14,6 @@ formStatus.addEventListener("click", function () {
     }
 });
 
+const upvoteButton = document.querySelector(".upvote-btn");
 
 
