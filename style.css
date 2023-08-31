@@ -25,13 +25,23 @@ ul {
 /* Layouts */
 
 .container {
-    width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
 }
+
+
 
 .main {
     display: grid;
     grid-template-columns: 250px 1fr;
+}
+
+@media (max-width: 900px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+
+
 }
 
 .header {
@@ -91,6 +101,41 @@ ul {
 
 }
 
+.btn {
+    color: inherit;
+    border: none;
+    font-family: 'Coiny', sans-serif;
+    line-height: 1;
+    text-transform: uppercase;
+    font-size: 17px;
+    padding: 16px 0 13px;
+    background-image: linear-gradient(135deg, #3b82f6, #ef4444, #16a34a, #eab308);
+    transition: 0.3s;
+    border-radius: 300px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(110%) rotate(-2deg);
+
+}
+
+.btn-large {
+    font-size: 20px;
+    padding: 20px 32px 17px;
+}
+
+.btn-all-cat {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.btn-cat {
+    width: 100%;
+    background-image: none;
+
+}
+
 .fact {
     font-size: 20px;
     line-height: 1.4;
@@ -105,6 +150,10 @@ ul {
     gap: 24px;
     border-radius: 16px;
 }
+
+
+
+
 
 .vote-buttons {
     margin-left: auto;
@@ -152,37 +201,36 @@ ul {
     color: #3b82f6;
 }
 
-.btn {
-    color: inherit;
-    border: none;
-    font-family: 'Coiny', sans-serif;
-    line-height: 1;
-    text-transform: uppercase;
-    font-size: 17px;
-    padding: 16px 0 13px;
-    background-image: linear-gradient(135deg, #3b82f6, #ef4444, #16a34a, #eab308);
-    transition: 0.3s;
-    border-radius: 300px;
-    cursor: pointer;
+
+
+@media (max-width:1200px) {
+    .fact {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-end;
+    }
 }
 
-.btn:hover {
-    transform: scale(110%) rotate(-2deg);
+@media (max-width:1000px) {
+    body {
+        padding: 32px 48px;
+    }
 
-}
+    .fact-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-.btn-large {
-    font-size: 20px;
-    padding: 20px 32px 17px;
-}
+    .fact-form input,
+    .fact-form select {
+        width: auto;
+    }
 
-.btn-all-cat {
-    margin-bottom: 16px;
-    width: 100%;
-}
+    .fact-form span {
+        margin: auto;
+    }
 
-.btn-cat {
-    width: 100%;
-    background-image: none;
-
+    .listOfCategories {
+        padding-bottom: 20px;
+    }
 }
