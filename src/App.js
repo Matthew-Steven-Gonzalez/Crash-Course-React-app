@@ -73,7 +73,7 @@ function App() {
       </header>
 
       {showForm ? <NewFactForm /> : null}
-      \
+
       <main className="main">
 
         <CategoryFilter />
