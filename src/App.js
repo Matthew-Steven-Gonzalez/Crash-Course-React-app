@@ -47,30 +47,13 @@ const initialFacts = [
   },
 ];
 
-function Counter() {
-  const [count, setCount] = useState(0);
-  return <div>
-    <span style={{ fontSize: "40px" }}>{count}</span>
-    <button className="btn btn-large" onClick={() => setCount((c) => c + 1)}>+1</button>
-  </div>
-}
-
-
 function App() {
 
   const [showForm, setShowForm] = useState(false);
 
-  const appTitle = "Today-I-Learned";
-
   return (
     <>
-      <header className="header">
-        <div className="logo">
-          <img src="logo.png" alt="Today I learned logo" />
-          <h1>{appTitle}</h1>
-        </div>
-        <button className="btn btn-large formBtn">Share a fact</button>
-      </header>
+      <Header showForm={showForm} setShowForm={setShowForm} />
 
       {showForm ? <NewFactForm /> : null}
 
@@ -84,8 +67,54 @@ function App() {
   );
 }
 
+function Header({ showForm, setShowForm }) {
+
+  const appTitle = "Today-I-Learned";
+  return (
+    <header className="header">
+      <div className="logo">
+        <img src="logo.png" alt="Today I learned logo" />
+        <h1>{appTitle}</h1>
+      </div>
+      <button className="btn btn-large formBtn"
+        onClick={() => setShowForm((show) => !show)}>
+        {showForm ? 'Cancel' : 'Share A Fact'}</button>
+    </header>
+  );
+}
+
 function NewFactForm() {
-  return <form className="fact-form">New Form</form>;
+  const [text, setText] = useState("");
+  const [source, setSource] = useState("");
+  const [category, setCategory] = useState("");
+
+  return (
+    <form className="fact-form">
+      <input
+        type="text"
+        placeholder="Share a fact"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <span>200</span>
+      <input
+        type="text"
+        placeholder="Trustworthy Source"
+        value={source}
+        onChange={(e) => setSource(e.target.value)}
+      />
+      <select name="" id="" value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      >
+        <option value="">Choice Category</option>
+        {CATEGORIES.map((cat) =>
+          <option
+            key={cat.name}
+            value={cat.name}>{cat.name.toUpperCase()}
+          </option>)}
+      </select>
+      <button className="btn btn-large">Post</button>
+    </form>);
 }
 
 function CategoryFilter() {
@@ -118,7 +147,10 @@ function FactsList() {
   );
 }
 
+
 function Fact({ fact }) {
+
+  const [value, incrementInterestingValue] = useState(fact.votesInteresting);
   return (
     <li className="fact">
       <p> {fact.text}
@@ -129,7 +161,7 @@ function Fact({ fact }) {
       <span className="tag" style={{ backgroundColor: CATEGORIES.find((cat) => cat.name === fact.category).color }}>{fact.category}</span>
 
       <div className="vote-buttons">
-        <button>👍 {fact.votesInteresting}</button>
+        <button onClick={() => console.log("up one")}>👍 {fact.votesInteresting}</button>
         <button>🤯 {fact.votesMindblowing}</button>
         <button>⛔️ {fact.votesFalse}</button>
       </div>
