@@ -1,4 +1,5 @@
 import { useState } from "react";
+import supabase from "./supabase";
 import "./style.css";
 
 
@@ -50,18 +51,21 @@ const initialFacts = [
 function App() {
 
   const [showForm, setShowForm] = useState(false);
+  const [facts, setFacts] = useState(initialFacts);
+
 
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
 
-      {showForm ? <NewFactForm /> : null}
+      {showForm ? <NewFactForm setFacts={setFacts}
+        setShowForm={setShowForm} /> : null}
 
       <main className="main">
 
         <CategoryFilter />
 
-        <FactsList />
+        <FactsList facts={facts} />
       </main>
     </>
   );
@@ -83,20 +87,71 @@ function Header({ showForm, setShowForm }) {
   );
 }
 
-function NewFactForm() {
+function isValidHttpUrl(string) {
+  let url;
+
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+function NewFactForm({ setFacts, setShowForm }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
+  const textLength = text.length;
+
+  function handleSubmit(event) {
+    //1.Prevent browser reload
+    event.preventDefault();
+
+    //2.Check if data is Valid
+    if (text && isValidHttpUrl(source) && category && text.length <= 200) {
+      console.log("All three")
+    }
+
+    //3.Create new fact object
+    const newFact = {
+      id: Math.round(Math.random() * 10000000),
+      text,
+      source,
+      category,
+      votesInteresting: 0,
+      votesMindblowing: 0,
+      votesFalse: 0,
+      createdIn: new Date().getFullYear(),
+    }
+
+    //4.add fact to new UI/State
+
+    setFacts((facts) => [newFact, ...facts]);
+
+    //5.reset input fields back to default
+
+    setText('');
+    setCategory('');
+    setSource('');
+
+    //6.close form
+
+    setShowForm(false);
+
+  }
+
 
   return (
-    <form className="fact-form">
+    <form className="fact-form" onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Share a fact"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <span>200</span>
+      <span>{textLength - 200}</span>
       <input
         type="text"
         placeholder="Trustworthy Source"
@@ -132,10 +187,7 @@ function CategoryFilter() {
   );
 }
 
-function FactsList() {
-
-  const facts = initialFacts;
-
+function FactsList({ facts }) {
   return (
     <section>
       <ul className="facts-list">
