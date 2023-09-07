@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "./supabase";
 import "./style.css";
+import { async } from "q";
 
 
 const CATEGORIES = [
@@ -52,6 +53,15 @@ function App() {
 
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState(initialFacts);
+  useEffect(function () {
+    async function getFacts() {
+      const { data: Facts, error } = await supabase
+        .from('Facts').select('*');
+      console.log(Facts)
+    }
+
+    getFacts();
+  }, []);
 
 
   return (
