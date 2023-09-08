@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import supabase from "./supabase";
 import "./style.css";
-import { async } from "q";
 
 
 const CATEGORIES = [
@@ -52,14 +51,17 @@ const initialFacts = [
 function App() {
 
   const [showForm, setShowForm] = useState(false);
-  const [facts, setFacts] = useState(initialFacts);
+  const [facts, setFacts] = useState([]);
+  const [isLoading, setIsLoarding] = useState(false);
   useEffect(function () {
     async function getFacts() {
+      setIsLoarding(true);
       const { data: Facts, error } = await supabase
-        .from('Facts').select('*');
-      console.log(Facts)
-    }
+        .from('Facts').select('*').order('thumbsUp', { ascending: true });
+      setFacts(Facts);
+      setIsLoarding(false);
 
+    }
     getFacts();
   }, []);
 
@@ -72,13 +74,19 @@ function App() {
         setShowForm={setShowForm} /> : null}
 
       <main className="main">
-
         <CategoryFilter />
 
-        <FactsList facts={facts} />
+        {isLoading ? <Loader /> : <FactsList facts={facts} />}
+
+
+
       </main>
     </>
   );
+}
+
+function Loader() {
+  return <p className="loader">Loading...</p>
 }
 
 function Header({ showForm, setShowForm }) {
@@ -223,9 +231,9 @@ function Fact({ fact }) {
       <span className="tag" style={{ backgroundColor: CATEGORIES.find((cat) => cat.name === fact.category).color }}>{fact.category}</span>
 
       <div className="vote-buttons">
-        <button onClick={() => console.log("up one")}>👍 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindblowing}</button>
-        <button>⛔️ {fact.votesFalse}</button>
+        <button>👍 {fact.thumbsUp}</button>
+        <button>🤯 {fact.mindBlowing}</button>
+        <button>⛔️ {fact.falseFact}</button>
       </div>
 
     </li>

@@ -64,6 +64,13 @@ ul {
     height: 68px;
 }
 
+.loader {
+    margin: auto auto;
+    text-transform: uppercase;
+    font-size: 48px;
+    font-weight: 600;
+}
+
 .fact-form {
     background-color: #44403c;
     margin-bottom: 40px;
