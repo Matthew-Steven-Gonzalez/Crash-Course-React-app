@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import supabase from "./supabase";
 import "./style.css";
 
-
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
   { name: "science", color: "#16a34a" },
@@ -14,57 +13,36 @@ const CATEGORIES = [
   { name: "news", color: "#8b5cf6" },
 ];
 
-const initialFacts = [
-  {
-    id: 1,
-    text: "React is being developed by Meta (formerly facebook)",
-    source: "https://opensource.fb.com/",
-    category: "technology",
-    votesInteresting: 24,
-    votesMindblowing: 9,
-    votesFalse: 4,
-    createdIn: 2021,
-  },
-  {
-    id: 2,
-    text: "Millennial dads spend 3 times as much time with their kids than their fathers spent with them. In 1982, 43% of fathers had never changed a diaper. Today, that number is down to 3%",
-    source:
-      "https://www.mother.ly/parenting/millennial-dads-spend-more-time-with-their-kids",
-    category: "society",
-    votesInteresting: 11,
-    votesMindblowing: 2,
-    votesFalse: 0,
-    createdIn: 2019,
-  },
-  {
-    id: 3,
-    text: "Lisbon is the capital of Portugal",
-    source: "https://en.wikipedia.org/wiki/Lisbon",
-    category: "society",
-    votesInteresting: 8,
-    votesMindblowing: 3,
-    votesFalse: 1,
-    createdIn: 2015,
-  },
-];
-
 function App() {
 
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoarding] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all");
+
+
+
   useEffect(function () {
     async function getFacts() {
       setIsLoarding(true);
-      const { data: Facts, error } = await supabase
-        .from('Facts').select('*').order('thumbsUp', { ascending: true });
-      setFacts(Facts);
+
+      let query = supabase.
+        from('Facts')
+        .select('*')
+
+      if (currentCategory !== "all") query = query.eq
+        ("category", currentCategory);
+
+      const { data: Facts, error } = await query
+        .order('thumbsUp', { ascending: false });
+
       setIsLoarding(false);
 
+      if (!error) setFacts(Facts);
+      else alert("Error retriving data.")
     }
     getFacts();
-  }, []);
-
+  }, [currentCategory]);
 
   return (
     <>
@@ -74,7 +52,7 @@ function App() {
         setShowForm={setShowForm} /> : null}
 
       <main className="main">
-        <CategoryFilter />
+        <CategoryFilter setCurrentCategory={setCurrentCategory} />
 
         {isLoading ? <Loader /> : <FactsList facts={facts} />}
 
@@ -160,7 +138,6 @@ function NewFactForm({ setFacts, setShowForm }) {
 
   }
 
-
   return (
     <form className="fact-form" onSubmit={handleSubmit}>
       <input
@@ -190,15 +167,17 @@ function NewFactForm({ setFacts, setShowForm }) {
     </form>);
 }
 
-function CategoryFilter() {
+function CategoryFilter({ setCurrentCategory }) {
   return (
     <aside>
       <ul>
         <li>
-          <button className="btn btn-all-cat">All</button>
+          <button className="btn btn-all-cat"
+            onClick={() => setCurrentCategory("all")}>All</button>
         </li>
         {CATEGORIES.map((cat) => <li key={cat.name}>
-          <button style={{ backgroundColor: cat.color }} className="btn btn-cat">{cat.name}</button>
+          <button style={{ backgroundColor: cat.color }} className="btn btn-cat"
+            onClick={() => setCurrentCategory(cat.name)}>{cat.name}</button>
         </li>)}
       </ul>
     </aside>
@@ -206,6 +185,11 @@ function CategoryFilter() {
 }
 
 function FactsList({ facts }) {
+
+  if (facts.length === 0) {
+    return <p className="loader">There are no facts in the category, Maybe add one.</p>
+  }
+
   return (
     <section>
       <ul className="facts-list">
@@ -217,9 +201,7 @@ function FactsList({ facts }) {
   );
 }
 
-
 function Fact({ fact }) {
-
   const [value, incrementInterestingValue] = useState(fact.votesInteresting);
   return (
     <li className="fact">
