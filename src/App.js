@@ -215,11 +215,11 @@ function FactsList({ facts, setFacts }) {
 function Fact({ fact, setFacts }) {
   const [isUpdating, setIsUpdating] = useState(false);
 
-  async function handleVote() {
+  async function handleVote(x) {
     setIsUpdating(true);
     const { data: updatedFact, error } = await supabase
       .from("Facts")
-      .update({ thumbsUp: fact.thumbsUp + 1 })
+      .update({ [x]: fact[x] + 1 })
       .eq("id", fact.id)
       .select();
 
@@ -240,9 +240,9 @@ function Fact({ fact, setFacts }) {
       <span className="tag" style={{ backgroundColor: CATEGORIES.find((cat) => cat.name === fact.category).color }}>{fact.category}</span>
 
       <div className="vote-buttons">
-        <button onClick={handleVote} disabled={isUpdating}>👍 {fact.thumbsUp}</button>
-        <button>🤯 {fact.mindBlowing}</button>
-        <button>⛔️ {fact.falseFact}</button>
+        <button onClick={() => handleVote("thumbsUp")} disabled={isUpdating}>👍 {fact.thumbsUp}</button>
+        <button onClick={() => handleVote("mindBlowing")} disabled={isUpdating}>🤯 {fact.mindBlowing}</button>
+        <button onClick={() => handleVote("falseFact")} disabled={isUpdating}>⛔️ {fact.falseFact}</button>
       </div>
 
     </li>
