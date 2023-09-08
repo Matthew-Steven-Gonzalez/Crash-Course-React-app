@@ -184,10 +184,16 @@ ul {
     cursor: pointer;
 }
 
+
 .vote-buttons button:hover {
     background-color: #292524;
     transition: 0.3s;
     transform: scale(110%) rotate(-2deg);
+}
+
+.vote-buttons button:disabled {
+    background-color: #4440c3;
+
 }
 
 .tag {
