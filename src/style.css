@@ -24,16 +24,21 @@ ul {
 
 /* Layouts */
 
-.container {
+#root {
     max-width: 1500px;
     margin: 0 auto;
 }
 
+section {
+    overflow: scroll;
+}
 
 
 .main {
     display: grid;
     grid-template-columns: 250px 1fr;
+    gap: 48;
+    height: 80vh;
 }
 
 @media (max-width: 900px) {
@@ -162,6 +167,10 @@ ul {
     align-items: center;
     gap: 24px;
     border-radius: 16px;
+}
+
+.disputed {
+    color: red;
 }
 
 .vote-buttons {
